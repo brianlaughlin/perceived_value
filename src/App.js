@@ -1,5 +1,5 @@
 import React from 'react';
-import { FancyLoader } from './react-fancy-loader/src';
+import { FancyLoader } from 'react-fancy-loader';
 
 const App = () => {
   const handleComplete = () => {

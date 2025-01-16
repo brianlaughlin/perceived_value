@@ -6,7 +6,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json';
 
 export default {
-  input: 'src/index.ts',
+  input: 'index.ts',
   output: [
     {
       file: pkg.main,
