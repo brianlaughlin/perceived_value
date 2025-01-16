@@ -1,70 +1,171 @@
-# Getting Started with Create React App
+# React Fancy Loader
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A customizable loading screen component for React applications featuring animated progress bars, fake data streams, and dynamic status messages.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Animated progress bar with customizable speed and increments
+- Dynamic status messages with icons
+- Fake data streams for visual appeal
+- Customizable theme using Tailwind CSS classes
+- Responsive design
+- TypeScript support
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Install the package and its peer dependencies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm install react-fancy-loader lucide-react tailwindcss
+```
 
-### `npm test`
+2. Configure Tailwind CSS in your project if not already set up:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
 
-### `npm run build`
+3. Update your tailwind.config.js to include the necessary paths:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/react-fancy-loader/**/*.{js,jsx,ts,tsx}"
+  ],
+  theme: {
+    extend: {
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }
+    },
+  },
+  plugins: [],
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Import Tailwind CSS in your main CSS file:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Basic example:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```jsx
+import { FancyLoader } from 'react-fancy-loader';
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+function App() {
+  const handleComplete = () => {
+    console.log("Loading complete!");
+  };
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  return <FancyLoader onComplete={handleComplete} />;
+}
+```
 
-## Learn More
+Customized example:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```jsx
+import { FancyLoader } from 'react-fancy-loader';
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function App() {
+  const handleComplete = () => {
+    console.log("Loading complete!");
+  };
 
-### Code Splitting
+  const customTheme = {
+    background: 'bg-slate-900',
+    text: 'text-white',
+    secondaryBackground: 'bg-slate-800',
+    progressBackground: 'bg-slate-700',
+    progressBar: 'bg-gradient-to-r from-emerald-500 via-sky-500 to-indigo-500'
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  return (
+    <FancyLoader 
+      onComplete={handleComplete}
+      theme={customTheme}
+      progressInterval={50}
+      progressIncrement={0.3}
+      stepInterval={3000}
+    />
+  );
+}
+```
 
-### Analyzing the Bundle Size
+## Props
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| steps | Step[] | defaultSteps | Array of loading steps with text and icons |
+| onComplete | () => void | undefined | Callback when loading reaches 100% |
+| className | string | '' | Additional CSS classes |
+| progressInterval | number | 100 | Interval between progress updates (ms) |
+| stepInterval | number | 3000 | Interval between step changes (ms) |
+| progressIncrement | number | 0.5 | Progress increment per update |
+| theme | Theme | defaultTheme | Custom theme configuration |
 
-### Making a Progressive Web App
+## Theme Customization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The theme object accepts Tailwind CSS classes for various elements:
 
-### Advanced Configuration
+```typescript
+interface Theme {
+  background: string;        // Main background
+  text: string;             // Text color
+  secondaryBackground: string; // Secondary elements background
+  progressBackground: string;  // Progress bar background
+  progressBar: string;        // Progress bar fill
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Future Improvements
 
-### Deployment
+1. Animation Enhancements
+   - Add more animation options for progress bar
+   - Include transition effects between steps
+   - Add optional particle effects in background
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. Customization
+   - Support for custom step components
+   - More theme options (sizes, fonts, spacing)
+   - Custom animation timing functions
+   - Option to disable specific features (data streams, metrics)
 
-### `npm run build` fails to minify
+3. Performance
+   - Optimize animations for better performance
+   - Reduce bundle size
+   - Add lazy loading option for icons
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Accessibility
+   - Add ARIA attributes
+   - Improve screen reader support
+   - Add high contrast theme option
+
+5. Developer Experience
+   - Add more comprehensive documentation
+   - Include more usage examples
+   - Add unit tests
+   - Add storybook documentation
+   - Add CI/CD pipeline
+
+6. Features
+   - Add error state handling
+   - Support for progress estimation
+   - Add different loader styles/variants
+   - Support for custom metrics display
+   - Add sound effects option
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT
